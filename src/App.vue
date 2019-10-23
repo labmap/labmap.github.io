@@ -46,8 +46,8 @@ function setTimetable(room, timetable) {
   const weekday = now.format("dddd").toLowerCase();
   const todayTimetable = timetable[weekday];
   todayTimetable.forEach((event, id) => {
-    const start = moment(event.start_time, 'H:m');
-    const end = moment(event.end_time, 'H:m');
+    const start = moment(event.start_time, "H:m");
+    const end = moment(event.end_time, "H:m");
     event.isActive = now.isBetween(start, end);
     event.id = id;
     room.timetable.push(event);
@@ -68,7 +68,7 @@ export default {
   },
   mounted() {
     const timetable_url =
-      "http://students.mimuw.edu.pl/~tm385898/labmap/api/timetable/";
+      "https://students.mimuw.edu.pl/~tm385898/labmap/api/timetable/";
     rooms.forEach(room => {
       room.isLoading = true;
       axios.get(timetable_url + room.id).then(response => {
