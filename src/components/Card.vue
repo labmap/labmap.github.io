@@ -1,6 +1,6 @@
 <template>
   <div
-    class="uk-card uk-flex uk-flex-column uk-width-1-5@xl uk-width-1-4@l uk-width-1-3@m uk-width-1-2@s"
+    class="uk-card uk-flex-inline uk-flex-column uk-background-default uk-width-1-5@xl uk-width-1-4@l uk-width-1-3@m uk-width-1-2@s"
   >
     <header
       :class="[
@@ -16,8 +16,12 @@
         {{ room.id }}
       </div>
     </header>
-    <main
+    <div v-if="room.isLoading" class="uk-padding-small uk-flex uk-flex-center">
+      <div uk-spinner="ratio: 1.5"></div>
+    </div>
+    <div
       class="uk-flex-1 uk-card-default uk-card-body uk-overflow-auto uk-padding-small"
+      v-else-if="display === 'timetable'"
     >
       <Event
         v-for="event in room.timetable"
@@ -25,7 +29,8 @@
         v-bind:event="event"
         v-bind:highlight-color="room.color"
       ></Event>
-    </main>
+    </div>
+    <div v-else></div>
   </div>
 </template>
 
@@ -35,13 +40,17 @@ export default {
   name: "Card",
   components: { Event },
   props: {
-    room: Object
+    room: Object,
+    display: String
+  },
+  data() {
+    return {};
   }
 };
 </script>
 
 <style scoped>
-main.uk-card-body {
-  padding: 10px 10px 0 10px !important;
+div.uk-card {
+  background-clip: content-box;
 }
 </style>

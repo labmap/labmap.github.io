@@ -1,15 +1,17 @@
 <template>
   <main id="app">
-    <Header></Header>
+    <Header v-bind:display.sync="display"></Header>
     <main
-      class="uk-grid-small uk-padding-small background-muted uk-flex uk-flex-stretch"
+      class="uk-grid-small uk-padding-small background-muted uk-flex uk-flex-top uk-flex-wrap-top"
       uk-height-viewport="expand: true"
+      uk-height-match
       uk-grid
     >
       <Card
         v-for="room in rooms"
         v-bind:key="room.id"
         v-bind:room="room"
+        v-bind:display="display"
       ></Card>
     </main>
     <Footer></Footer>
@@ -20,6 +22,7 @@
 import UIkit from "uikit";
 import moment from "moment";
 import axios from "axios";
+import _ from "lodash";
 
 import Icons from "uikit/dist/js/uikit-icons";
 import Header from "./components/Header";
@@ -44,14 +47,25 @@ const rooms = [
 function setTimetable(room, timetable) {
   const now = moment();
   const weekday = now.format("dddd").toLowerCase();
-  const todayTimetable = timetable[weekday];
-  todayTimetable.forEach((event, id) => {
+  const todayEvents = timetable[weekday];
+  const preprocessedEvents = todayEvents.map((event, id) => {
     const start = moment(event.start_time, "H:m");
     const end = moment(event.end_time, "H:m");
-    event.isActive = now.isBetween(start, end);
-    event.id = id;
-    room.timetable.push(event);
+    return _.assign(event, {
+      id: id,
+      isEnded: now.isAfter(end),
+      isActive: now.isBetween(start, end),
+      isNext: false,
+      isLast: false
+    });
   });
+  const nextEvent = preprocessedEvents.find(event => !event.isEnded);
+  if (nextEvent !== undefined) {
+    nextEvent.isNext = true;
+  } else if (!preprocessedEvents[0].isEnded) {
+    preprocessedEvents[0].isNext = true;
+  }
+  preprocessedEvents.forEach(event => room.timetable.push(event));
 }
 
 export default {
@@ -63,6 +77,7 @@ export default {
   },
   data() {
     return {
+      display: "timetable",
       rooms: rooms
     };
   },
