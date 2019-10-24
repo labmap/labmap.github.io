@@ -1,12 +1,17 @@
 <template>
   <header
-    class="uk-navbar-container uk-navbar-transparent uk-background-primary uk-padding-small"
-    uk-navbar
+    id="header"
+    class="uk-grid-small uk-flex-center uk-background-primary uk-padding-small uk-child-width-1-3@s uk-child-width-1-1"
+    uk-grid
   >
-    <div class="uk-navbar-center text-white">
+    <div></div>
+    <div class="text-white uk-text-center">
       <a class="uk-logo" href="">LabMap</a>
     </div>
-    <div class="uk-navbar-right">
+    <div
+      id="toggle-switch"
+      class="uk-flex-inline uk-flex-center uk-flex-right@s uk-flex-middle"
+    >
       <div class="uk-margin-right">Timetable</div>
       <toggle-button
         :value="false"

@@ -2,7 +2,7 @@
   <main id="app">
     <Header v-bind:display.sync="display"></Header>
     <main
-      class="uk-grid-small uk-padding-small background-muted uk-flex uk-flex-top uk-flex-wrap-top"
+      class="uk-grid-small uk-margin-remove uk-padding-small uk-padding-remove-left background-muted uk-flex uk-flex-top uk-flex-wrap-top"
       uk-height-viewport="expand: true"
       uk-height-match
       uk-grid
