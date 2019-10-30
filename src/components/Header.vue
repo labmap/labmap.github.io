@@ -12,14 +12,14 @@
       id="toggle-switch"
       class="uk-flex-inline uk-flex-center uk-flex-right@s uk-flex-middle"
     >
-      <div class="uk-margin-right">Timetable</div>
+      <div class="uk-margin-right">Plan</div>
       <toggle-button
         :value="false"
         :labels="false"
         :color="{ checked: 'lightgray', unchecked: 'lightgray' }"
         @change="onToggleHandler"
       />
-      <div class="uk-margin-left">Computers</div>
+      <div class="uk-margin-left">Komputery</div>
     </div>
   </header>
 </template>
@@ -29,11 +29,7 @@ export default {
   name: "Header",
   methods: {
     onToggleHandler({ value }) {
-      // eslint-disable-next-line no-console
-      console.log(value);
       const newDisplay = value ? "computers" : "timetable";
-      // eslint-disable-next-line no-console
-      console.log(newDisplay);
       this.$emit("update:display", newDisplay);
     }
   }

@@ -16,7 +16,7 @@
         {{ room.id }}
       </div>
     </header>
-    <div v-if="room.isLoading" class="uk-padding-small uk-flex uk-flex-center">
+    <div v-if="isLoading()" class="uk-padding-small uk-flex uk-flex-center">
       <div uk-spinner="ratio: 1.5"></div>
     </div>
     <div
@@ -30,21 +30,43 @@
         v-bind:highlight-color="room.color"
       ></Event>
     </div>
-    <div v-else></div>
+    <div v-else>
+      <table
+        class="uk-table uk-table-small uk-table-divider uk-table-middle uk-margin-remove"
+        style="border-bottom: 1px solid #e5e5e5"
+      >
+        <tbody>
+          <Computer
+            v-for="computer in room.computers"
+            v-bind:key="computer.id"
+            v-bind:computer="computer"
+          ></Computer>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
 import Event from "./Event";
+import Computer from "./Computer";
 export default {
   name: "Card",
-  components: { Event },
+  components: { Computer, Event },
   props: {
     room: Object,
     display: String
   },
   data() {
     return {};
+  },
+  methods: {
+    isLoading() {
+      return (
+        (this.display === "timetable" && this.room.isTimetableLoading) ||
+        (this.display === "computers" && this.room.areComputersLoading)
+      );
+    }
   }
 };
 </script>

@@ -21,6 +21,7 @@
       </div>
       <div v-else>{{ event.start_time }} - {{ event.end_time }}</div>
     </main>
+    <hr v-if="event.isLast" class="uk-divider-icon" style="margin-top: 10px"/>
   </div>
 </template>
 
